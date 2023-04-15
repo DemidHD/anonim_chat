@@ -10,7 +10,6 @@ class Server:
         self.port = port
         self.all_client = []
         
-        """Прослушка соединений"""
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server.bind((self.ip, self.port))
         self.server.listen(0)
@@ -18,8 +17,8 @@ class Server:
         print('Сервер запущен!')
         
 
-    """Обработка входящих соединений"""
     def connect_handler(self):
+        """Обработка входящих соединений"""
         while True:
             client, address = self.server.accept()
             if client not in self.all_client:
@@ -29,8 +28,8 @@ class Server:
             time.sleep(1)
 
 
-    """Обработка входящих сообщений"""
     def message_handler(self, client_socket):
+        """Обработка входящих сообщений"""
         while True:
             message = client_socket.recv(1024)
             print(message)
