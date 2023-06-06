@@ -9,9 +9,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from des import *
 
 
-"""Мониторинг входящих сообщений"""
 class message_monitor(QtCore.QThread):
-
+    """Мониторинг входящих сообщений"""
     mysignal = QtCore.pyqtSignal(str)
 
     def __init__(self, server_socket, private_key, parent=None):
@@ -30,8 +29,8 @@ class message_monitor(QtCore.QThread):
                 self.mysignal.emit(self.message.decode('utf-8'))
 
 
-"""Клиент-обработка"""
 class Client(QtWidgets.QMainWindow):
+    """Клиент-обработка"""
     def __init__(self, parent=None):
         QtWidgets.QWidget.__init__(self, parent)
         self.ui = Ui_MainWindow()
@@ -90,8 +89,8 @@ class Client(QtWidgets.QMainWindow):
         self.ui.pushButton_4.clicked.connect(self.clear_panel)
 
 
-    """Подключение к серверу"""
     def connect_server(self):
+        """Подключение к серверу"""
         try:
             self.tcp_client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.tcp_client.connect((self.ip, self.port)); time.sleep(2)
@@ -115,8 +114,8 @@ class Client(QtWidgets.QMainWindow):
             self.ui.plainTextEdit.appendPlainText('Измените идентификаторы и повторите попытку!')
 
 
-    """Отправка сообщений"""
     def send_message(self):
+        """Отправка сообщений"""
         try:
             if len(self.ui.lineEdit.text()) > 0:
                 message = self.ui.lineEdit.text()
@@ -129,8 +128,8 @@ class Client(QtWidgets.QMainWindow):
             sys.exit()
 
 
-    """Генерация ключей шифрования"""
     def generate_encrypt(self):
+        """Генерация ключей шифрования"""
         if len(self.ui.lineEdit_4.text()) > 0:
             if len(self.ui.lineEdit_5.text()) > 0:
                 (pubkey, privkey) = rsa.newkeys(512)
@@ -157,8 +156,8 @@ class Client(QtWidgets.QMainWindow):
 
 
 
-    """Закрытие соединения"""
     def closeEvent(self, event):
+        """Закрытие соединения"""
         try:
             self.tcp_client.send(b'exit')
             self.tcp_client.close()
